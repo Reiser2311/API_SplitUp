@@ -1,0 +1,54 @@
+package com.splitup.crud.controlador;
+
+import com.splitup.crud.entidades.Usuario;
+import com.splitup.crud.servicios.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/usuarios")
+public class UsuarioController {
+    private final UsuarioService usuarioService;
+
+    @Autowired
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
+    @GetMapping
+    public List<Usuario> getUsuarios() {
+        return usuarioService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Integer id) {
+        Optional<Usuario> usuario = usuarioService.findById(id);
+        return usuario.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @PostMapping
+    public Usuario createUsuario(@RequestBody Usuario usuario) {
+        return usuarioService.save(usuario);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable Integer id, @RequestBody Usuario usuario) {
+        if (usuarioService.findById(id).isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        usuario.setId(id);
+        return ResponseEntity.ok(usuarioService.save(usuario));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Integer id) {
+        usuarioService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+}
+
