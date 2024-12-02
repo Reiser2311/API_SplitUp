@@ -1,6 +1,9 @@
 package com.splitup.crud.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.splitup.crud.conversor.StringArrayConverter;
 import jakarta.persistence.*;
 import java.util.List;
