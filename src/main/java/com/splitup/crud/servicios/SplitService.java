@@ -32,5 +32,9 @@ public class SplitService {
     public void deleteById(Integer id) {
         splitRepository.deleteById(id);
     }
+
+    public List<Split> findByUsuarioCorreo(String correo) {
+        return splitRepository.findByUsuarioCorreo(correo);
+    }
 }
 
