@@ -31,6 +31,15 @@ public class PagoController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    @GetMapping("/split/{id}")
+    public ResponseEntity<List<Pago>> getPagoBySplitId(@PathVariable Integer id) {
+        List<Pago> pagos = pagoService.findBySplitId(id);
+        if (pagos.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(pagos);
+    }
+
     @PostMapping
     public Pago createPago(@RequestBody Pago pago) {
         return pagoService.save(pago);

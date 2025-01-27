@@ -25,6 +25,10 @@ public class PagoService {
         return pagoRepository.findById(id);
     }
 
+    public List<Pago> findBySplitId (Integer splitId) {
+        return pagoRepository.findBySplitId(splitId);
+    }
+
     public Pago save(Pago pago) {
         return pagoRepository.save(pago);
     }
