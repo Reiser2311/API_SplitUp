@@ -21,7 +21,7 @@ public class Split {
     private String[] participantes;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_email", referencedColumnName = "email", nullable = false)
+    @JoinColumn(name = "usuario_email")
     private Usuario usuario;
 
     @OneToMany(mappedBy = "split", cascade = CascadeType.REMOVE, orphanRemoval = true)
