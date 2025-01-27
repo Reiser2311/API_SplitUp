@@ -21,15 +21,13 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> findById(Integer id) {
-        return usuarioRepository.findById(id);
-    }
+    public Optional<Usuario> findByCorreo(String correo) { return usuarioRepository.findById(correo); }
 
     public Usuario save(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    public void deleteById(Integer id) {
-        usuarioRepository.deleteById(id);
+    public void deleteById(String correo) {
+        usuarioRepository.deleteById(correo);
     }
 }

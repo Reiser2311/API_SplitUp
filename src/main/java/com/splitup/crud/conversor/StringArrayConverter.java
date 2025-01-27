@@ -2,7 +2,6 @@ package com.splitup.crud.conversor;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import java.util.Arrays;
 
 @Converter(autoApply = true)
 public class StringArrayConverter implements AttributeConverter<String[], String> {
