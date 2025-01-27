@@ -4,7 +4,6 @@ import com.splitup.crud.entidades.Pago;
 import com.splitup.crud.repositorio.PagoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
