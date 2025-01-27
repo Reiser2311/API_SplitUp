@@ -1,9 +1,6 @@
 package com.splitup.crud.entidades;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerator;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.splitup.crud.conversor.StringArrayConverter;
 import jakarta.persistence.*;
 import java.util.List;
@@ -21,7 +18,7 @@ public class Split {
     private String[] participantes;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_email", referencedColumnName = "email", nullable = false)
+    @JoinColumn(name = "usuario_email")
     private Usuario usuario;
 
     @OneToMany(mappedBy = "split", cascade = CascadeType.REMOVE, orphanRemoval = true)
