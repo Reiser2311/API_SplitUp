@@ -10,23 +10,15 @@ import java.util.List;
 @Table(name = "Usuario")
 public class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(nullable = false, unique = true)
+    private String correo;
     private String nombre;
     private String contrasenya;
-    private String correo;
+
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private List<Split> splits;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;
