@@ -1,6 +1,8 @@
 package com.splitup.crud.controlador;
 
 import com.splitup.crud.entidades.Pago;
+import com.splitup.crud.entidades.Split;
+import com.splitup.crud.repositorio.SplitRepository;
 import com.splitup.crud.servicios.PagoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +15,12 @@ import java.util.Optional;
 @RequestMapping("/api/pagos")
 public class PagoController {
     private final PagoService pagoService;
+    private final SplitRepository splitRepository;
 
     @Autowired
-    public PagoController(PagoService pagoService) {
+    public PagoController(PagoService pagoService, SplitRepository splitRepository) {
         this.pagoService = pagoService;
+        this.splitRepository = splitRepository;
     }
 
     @GetMapping
@@ -31,7 +35,7 @@ public class PagoController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    @GetMapping("/split/{id}")
+    @GetMapping("/splits/{id}")
     public ResponseEntity<List<Pago>> getPagoBySplitId(@PathVariable Integer id) {
         List<Pago> pagos = pagoService.findBySplitId(id);
         if (pagos.isEmpty()) {
@@ -41,18 +45,50 @@ public class PagoController {
     }
 
     @PostMapping
-    public Pago createPago(@RequestBody Pago pago) {
-        return pagoService.save(pago);
+    public ResponseEntity<Pago> createPago(@RequestBody Pago pago) {
+        if (pago.getSplit() == null || pago.getSplit().getId() == null) {
+            System.out.println("Error: Split es nulo o el id es nulo");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Split no proporcionado o invalido
+        }
+
+        Optional<Split> optionalSplit = splitRepository.findById(pago.getSplit().getId());
+        if (optionalSplit.isEmpty()) {
+            System.out.println("Error: No se encontró Split con id " + pago.getSplit().getId());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // No se encuentra el Split
+        }
+
+        pago.setSplit(optionalSplit.get());
+        Pago savedPago = pagoService.save(pago);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedPago);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Pago> updatePago(@PathVariable Integer id, @RequestBody Pago pago) {
-        if (pagoService.findById(id).isEmpty()) {
+        Optional<Pago> existingPago = pagoService.findById(id);
+        if (existingPago.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+
+        // Verificamos si el Split con el splitId existe
+        if (pago.getSplit() == null || pago.getSplit().getId() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Split no proporcionado o invalido
+        }
+
+        Optional<Split> optionalSplit = splitRepository.findById(pago.getSplit().getId());
+        if (optionalSplit.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // No se encuentra el Split
+        }
+
+        // Asignamos el Split al Pago
+        pago.setSplit(optionalSplit.get());
+
+        // Actualizamos el Pago
         pago.setId(id);
-        return ResponseEntity.ok(pagoService.save(pago));
+        Pago updatedPago = pagoService.save(pago);
+        return ResponseEntity.ok(updatedPago);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePago(@PathVariable Integer id) {
@@ -60,4 +96,3 @@ public class PagoController {
         return ResponseEntity.noContent().build();
     }
 }
-

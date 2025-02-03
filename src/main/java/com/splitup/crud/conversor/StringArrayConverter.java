@@ -3,17 +3,24 @@ package com.splitup.crud.conversor;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import java.util.Arrays;
-import java.util.List;
 
-@Converter(autoApply = true)
-public class StringArrayConverter implements AttributeConverter<List<String>, String> {
+@Converter
+public class StringArrayConverter implements AttributeConverter<String[], String> {
+    private static final String SEPARATOR = ",";
+
     @Override
-    public String convertToDatabaseColumn(List<String> attribute) {
-        return (attribute != null && !attribute.isEmpty()) ? String.join(",", attribute) : null;
+    public String convertToDatabaseColumn(String[] attribute) {
+        if (attribute == null || attribute.length == 0) {
+            return null;
+        }
+        return String.join(SEPARATOR, attribute);
     }
 
     @Override
-    public List<String> convertToEntityAttribute(String dbData) {
-        return (dbData != null && !dbData.isEmpty()) ? Arrays.asList(dbData.split(",")) : List.of();
+    public String[] convertToEntityAttribute(String dbData) {
+        if (dbData == null || dbData.isEmpty()) {
+            return new String[0];
+        }
+        return dbData.split(SEPARATOR);
     }
 }

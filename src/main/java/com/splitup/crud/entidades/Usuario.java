@@ -16,7 +16,7 @@ public class Usuario {
     private String contrasenya;
 
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Split> splits;
 

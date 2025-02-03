@@ -13,12 +13,8 @@ public class Pago {
     private double importe;
     private String pagadoPor;
 
-    @Column(columnDefinition = "text[]")
-    @Convert(converter = StringArrayConverter.class)
-    private String[] participantes;
-
     @ManyToOne
-    @JoinColumn(name = "split_id")
+    @JoinColumn(name = "split_id", nullable = false)
     private Split split;
 
     public Integer getId() {
@@ -51,14 +47,6 @@ public class Pago {
 
     public void setPagadoPor(String pagadoPor) {
         this.pagadoPor = pagadoPor;
-    }
-
-    public String[] getParticipantes() {
-        return participantes;
-    }
-
-    public void setParticipantes(String[] participantes) {
-        this.participantes = participantes;
     }
 
     public Split getSplit() {

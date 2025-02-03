@@ -18,10 +18,10 @@ public class Split {
     private String[] participantes;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_email")
+    @JoinColumn(name = "usuario_email", nullable = false)
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "split", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "split", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Pago> pagos;
 
