@@ -1,6 +1,7 @@
 package com.splitup.crud.servicios;
 
 import com.splitup.crud.entidades.Pago;
+import com.splitup.crud.entidades.Split;
 import com.splitup.crud.repositorio.PagoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,16 @@ public class PagoService {
 
     public void deleteById(Integer id) {
         pagoRepository.deleteById(id);
+    }
+
+    public void updatePago(Integer id, String titulo, Double importe, String pagadoPor) {
+        Pago pago = pagoRepository.findById(id).orElseThrow(() -> new RuntimeException("Split no encontrado"));
+
+        pago.setTitulo(titulo);
+        pago.setImporte(importe);
+        pago.setPagadoPor(pagadoPor);
+
+        pagoRepository.save(pago);
     }
 }
 

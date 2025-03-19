@@ -64,29 +64,16 @@ public class PagoController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pago> updatePago(@PathVariable Integer id, @RequestBody Pago pago) {
-        Optional<Pago> existingPago = pagoService.findById(id);
-        if (existingPago.isEmpty()) {
+    public ResponseEntity<Void> updateSplit(@PathVariable Integer id, @RequestParam String titulo, @RequestParam Double importe, @RequestParam String pagadoPor) {
+        Optional<Pago> pagoOpt = pagoService.findById(id);
+
+        if (pagoOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        // Verificamos si el Split con el splitId existe
-        if (pago.getSplit() == null || pago.getSplit().getId() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Split no proporcionado o invalido
-        }
+        pagoService.updatePago(id, titulo, importe, pagadoPor);
 
-        Optional<Split> optionalSplit = splitRepository.findById(pago.getSplit().getId());
-        if (optionalSplit.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // No se encuentra el Split
-        }
-
-        // Asignamos el Split al Pago
-        pago.setSplit(optionalSplit.get());
-
-        // Actualizamos el Pago
-        pago.setId(id);
-        Pago updatedPago = pagoService.save(pago);
-        return ResponseEntity.ok(updatedPago);
+        return ResponseEntity.ok().build();
     }
 
 

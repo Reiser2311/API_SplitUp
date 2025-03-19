@@ -1,6 +1,7 @@
 package com.splitup.crud.controlador;
 
 import com.splitup.crud.entidades.Split;
+import com.splitup.crud.entidades.Usuario;
 import com.splitup.crud.servicios.SplitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,16 +43,25 @@ public class SplitController {
 
     @PostMapping
     public Split createSplit(@RequestBody Split split) {
+        if (split.getUsuario() == null) {
+            throw new RuntimeException("El usuario del Split no puede ser nulo");
+        }
+
+        System.out.println("Usuario recibido: " + split.getUsuario().getCorreo());
         return splitService.save(split);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Split> updateSplit(@PathVariable Integer id, @RequestBody Split split) {
-        if (splitService.findById(id).isEmpty()) {
+    public ResponseEntity<Void> updateSplit(@PathVariable Integer id, @RequestParam String titulo, @RequestParam List<String> participantes) {
+        Optional<Split> splitOpt = splitService.findById(id);
+
+        if (splitOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        split.setId(id);
-        return ResponseEntity.ok(splitService.save(split));
+
+        splitService.updateSplit(id, titulo, participantes);
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

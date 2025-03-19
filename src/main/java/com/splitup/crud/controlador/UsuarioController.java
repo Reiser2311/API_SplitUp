@@ -37,12 +37,16 @@ public class UsuarioController {
     }
 
     @PutMapping("/{correo}")
-    public ResponseEntity<Usuario> updateUsuario(@PathVariable String correo, @RequestBody Usuario usuario) {
-        if (usuarioService.findByCorreo(correo).isEmpty()) {
+    public ResponseEntity<Void> updateUsuario(@PathVariable String correo, @RequestParam String nombre, @RequestParam String contrasenya) {
+        Optional<Usuario> usuarioOpt = usuarioService.findByCorreo(correo);
+
+        if (usuarioOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        usuario.setCorreo(correo);
-        return ResponseEntity.ok(usuarioService.save(usuario));
+
+        usuarioService.updateUsuario(correo, nombre, contrasenya);
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{correo}")

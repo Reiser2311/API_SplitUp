@@ -1,6 +1,5 @@
 package com.splitup.crud.entidades;
 
-import com.splitup.crud.conversor.StringArrayConverter;
 import jakarta.persistence.*;
 
 @Entity
@@ -57,5 +56,4 @@ public class Pago {
         this.split = split;
     }
 
-    // Getters y setters
 }

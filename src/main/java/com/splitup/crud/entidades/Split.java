@@ -1,7 +1,6 @@
 package com.splitup.crud.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.splitup.crud.conversor.StringArrayConverter;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -13,15 +12,16 @@ public class Split {
     private Integer id;
     private String titulo;
 
-    @Column(columnDefinition = "text[]")
-    @Convert(converter = StringArrayConverter.class)
-    private String[] participantes;
+    @ElementCollection
+    @CollectionTable(name = "split_participantes", joinColumns = @JoinColumn(name = "split_id"))
+    @Column(name = "participante")
+    private List<String> participantes;
 
     @ManyToOne
     @JoinColumn(name = "usuario_email", nullable = false)
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "split", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "split", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Pago> pagos;
 
@@ -41,12 +41,12 @@ public class Split {
         this.titulo = titulo;
     }
 
-    public String[] getParticipantes() {
+    public List<String> getParticipantes() {
         return participantes;
     }
 
-    public void setParticipantes(String[] texto) {
-        this.participantes = texto;
+    public void setParticipantes(List<String> participantes) {
+        this.participantes = participantes;
     }
 
     public Usuario getUsuario() {
