@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +49,7 @@ public class SplitController {
             throw new RuntimeException("El usuario del Split no puede ser nulo");
         }
 
-        System.out.println("Usuario recibido: " + split.getUsuario().getCorreo());
+        System.out.println("Usuario recibido: " + split.getParticipantes());
         return splitService.save(split);
     }
 

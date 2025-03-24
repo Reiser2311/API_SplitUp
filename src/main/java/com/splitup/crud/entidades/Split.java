@@ -12,9 +12,9 @@ public class Split {
     private Integer id;
     private String titulo;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "split_participantes", joinColumns = @JoinColumn(name = "split_id"))
-    @Column(name = "participante")
+    @Column(name = "participantes")
     private List<String> participantes;
 
     @ManyToOne
