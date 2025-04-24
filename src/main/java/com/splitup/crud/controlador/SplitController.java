@@ -1,14 +1,12 @@
 package com.splitup.crud.controlador;
 
 import com.splitup.crud.entidades.Split;
-import com.splitup.crud.entidades.Usuario;
 import com.splitup.crud.servicios.SplitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,19 +47,18 @@ public class SplitController {
             throw new RuntimeException("El usuario del Split no puede ser nulo");
         }
 
-        System.out.println("Usuario recibido: " + split.getParticipantes());
         return splitService.save(split);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateSplit(@PathVariable Integer id, @RequestParam String titulo, @RequestParam List<String> participantes) {
+    public ResponseEntity<Void> updateSplit(@PathVariable Integer id, @RequestParam String titulo) {
         Optional<Split> splitOpt = splitService.findById(id);
 
         if (splitOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        splitService.updateSplit(id, titulo, participantes);
+        splitService.updateSplit(id, titulo);
 
         return ResponseEntity.ok().build();
     }

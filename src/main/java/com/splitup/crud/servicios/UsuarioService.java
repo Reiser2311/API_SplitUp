@@ -21,19 +21,20 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> findByCorreo(String correo) { return usuarioRepository.findById(correo); }
+    public Optional<Usuario> findById(Integer id) { return usuarioRepository.findById(id); }
 
     public Usuario save(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    public void deleteById(String correo) {
-        usuarioRepository.deleteById(correo);
+    public void deleteById(Integer id) {
+        usuarioRepository.deleteById(id);
     }
 
-    public void updateUsuario(String correo, String nombre, String contrasenya) {
-        Usuario usuario = usuarioRepository.findById(correo).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    public void updateUsuario(Integer id, String correo, String nombre, String contrasenya) {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
+        usuario.setCorreo(correo);
         usuario.setNombre(nombre);
         usuario.setContrasenya(contrasenya);
 

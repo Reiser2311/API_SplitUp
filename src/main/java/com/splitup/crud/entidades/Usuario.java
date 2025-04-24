@@ -9,6 +9,7 @@ import java.util.List;
 public class Usuario {
     @Id
     @Column(nullable = false, unique = true)
+    private Integer id;
     private String correo;
     private String nombre;
     private String contrasenya;
@@ -48,5 +49,13 @@ public class Usuario {
 
     public void setSplits(List<Split> splits) {
         this.splits = splits;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

@@ -12,11 +12,6 @@ public class Split {
     private Integer id;
     private String titulo;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "split_participantes", joinColumns = @JoinColumn(name = "split_id"))
-    @Column(name = "participantes")
-    private List<String> participantes;
-
     @ManyToOne
     @JoinColumn(name = "usuario_email", nullable = false)
     private Usuario usuario;
@@ -39,14 +34,6 @@ public class Split {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
-    }
-
-    public List<String> getParticipantes() {
-        return participantes;
-    }
-
-    public void setParticipantes(List<String> participantes) {
-        this.participantes = participantes;
     }
 
     public Usuario getUsuario() {

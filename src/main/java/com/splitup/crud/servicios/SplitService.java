@@ -35,7 +35,7 @@ public class SplitService {
             throw new RuntimeException("El usuario no puede ser nulo");
         }
 
-        Usuario usuarioExistente = usuarioRepository.findById(split.getUsuario().getCorreo())
+        Usuario usuarioExistente = usuarioRepository.findById(split.getUsuario().getId())
                 .orElseThrow(() -> new RuntimeException("Usuario con correo " + split.getUsuario().getCorreo() + " no encontrado"));
 
         // Asigna el usuario existente al Split
@@ -52,11 +52,10 @@ public class SplitService {
         return splitRepository.findByUsuarioCorreo(correo);
     }
 
-    public void updateSplit(Integer id, String titulo, List<String> participantes) {
+    public void updateSplit(Integer id, String titulo) {
         Split split = splitRepository.findById(id).orElseThrow(() -> new RuntimeException("Split no encontrado"));
 
         split.setTitulo(titulo);
-        split.setParticipantes(participantes);
 
         splitRepository.save(split);
     }

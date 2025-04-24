@@ -24,9 +24,9 @@ public class UsuarioController {
         return usuarioService.findAll();
     }
 
-    @GetMapping("/{correo}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable String correo) {
-        Optional<Usuario> usuario = usuarioService.findByCorreo(correo);
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Integer id) {
+        Optional<Usuario> usuario = usuarioService.findById(id);
         return usuario.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
@@ -36,22 +36,22 @@ public class UsuarioController {
         return usuarioService.save(usuario);
     }
 
-    @PutMapping("/{correo}")
-    public ResponseEntity<Void> updateUsuario(@PathVariable String correo, @RequestParam String nombre, @RequestParam String contrasenya) {
-        Optional<Usuario> usuarioOpt = usuarioService.findByCorreo(correo);
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateUsuario(@PathVariable Integer id, @RequestParam String correo, @RequestParam String nombre, @RequestParam String contrasenya) {
+        Optional<Usuario> usuarioOpt = usuarioService.findById(id);
 
         if (usuarioOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        usuarioService.updateUsuario(correo, nombre, contrasenya);
+        usuarioService.updateUsuario(id, correo, nombre, contrasenya);
 
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{correo}")
-    public ResponseEntity<Void> deleteUsuario(@PathVariable String correo) {
-        usuarioService.deleteById(correo);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Integer id) {
+        usuarioService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
