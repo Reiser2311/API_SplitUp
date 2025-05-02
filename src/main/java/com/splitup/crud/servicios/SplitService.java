@@ -6,7 +6,7 @@ import com.splitup.crud.repositorio.SplitRepository;
 import com.splitup.crud.repositorio.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -48,8 +48,8 @@ public class SplitService {
         splitRepository.deleteById(id);
     }
 
-    public List<Split> findByUsuarioCorreo(String correo) {
-        return splitRepository.findByUsuarioCorreo(correo);
+    public List<Split> findByUsuarioId(Integer id) {
+        return splitRepository.findByUsuarioId(id);
     }
 
     public void updateSplit(Integer id, String titulo) {

@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface SplitRepository extends JpaRepository<Split, Integer> {
-    List<Split> findByUsuarioCorreo (String correo);
+    List<Split> findByUsuarioId (Integer idUsuario);
 }
 

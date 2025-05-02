@@ -13,7 +13,7 @@ public class Split {
     private String titulo;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_email", nullable = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
     @OneToMany(mappedBy = "split", cascade = CascadeType.ALL)

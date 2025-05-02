@@ -33,8 +33,8 @@ public class SplitController {
     }
 
     @GetMapping("usuarios/{correo}")
-    public ResponseEntity<List<Split>> getSplitsByCorreo(@PathVariable String correo) {
-        List<Split> splits = splitService.findByUsuarioCorreo(correo);
+    public ResponseEntity<List<Split>> getSplitsByUsuarioId(@PathVariable Integer id) {
+        List<Split> splits = splitService.findByUsuarioId(id);
         if (splits.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
