@@ -1,7 +1,10 @@
 package com.splitup.crud.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.splitup.crud.servicios.UsuarioService;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,10 +17,9 @@ public class Usuario {
     private String nombre;
     private String contrasenya;
 
-
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Split> splits;
+    private List<UsuarioSplit> usuarioSplits = new ArrayList<>();
 
     public String getNombre() {
         return nombre;
@@ -43,12 +45,12 @@ public class Usuario {
         this.correo = correo;
     }
 
-    public List<Split> getSplits() {
-        return splits;
+    public List<UsuarioSplit> getUsuarioSplits() {
+        return usuarioSplits;
     }
 
-    public void setSplits(List<Split> splits) {
-        this.splits = splits;
+    public void setUsuarioSplits(List<UsuarioSplit> usuarioSplits) {
+        this.usuarioSplits = usuarioSplits;
     }
 
     public Integer getId() {

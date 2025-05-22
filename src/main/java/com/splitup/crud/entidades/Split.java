@@ -2,6 +2,8 @@ package com.splitup.crud.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,11 +14,11 @@ public class Split {
     private Integer id;
     private String titulo;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
+    @OneToMany(mappedBy = "split", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<UsuarioSplit> usuarioSplits = new ArrayList<>();
 
-    @OneToMany(mappedBy = "split", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "split", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Pago> pagos;
 
@@ -36,12 +38,12 @@ public class Split {
         this.titulo = titulo;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public List<UsuarioSplit> getUsuarioSplits() {
+        return usuarioSplits;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioSplits(List<UsuarioSplit> usuarioSplits) {
+        this.usuarioSplits = usuarioSplits;
     }
 
     public List<Pago> getPagos() {

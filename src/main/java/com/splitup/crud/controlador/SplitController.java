@@ -32,15 +32,6 @@ public class SplitController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    @GetMapping("usuarios/{correo}")
-    public ResponseEntity<List<Split>> getSplitsByUsuarioId(@PathVariable Integer id) {
-        List<Split> splits = splitService.findByUsuarioId(id);
-        if (splits.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(splits);
-    }
-
     @PostMapping
     public Split createSplit(@RequestBody Split split) {
         if (split.getUsuario() == null) {

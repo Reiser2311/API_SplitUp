@@ -48,10 +48,6 @@ public class SplitService {
         splitRepository.deleteById(id);
     }
 
-    public List<Split> findByUsuarioId(Integer id) {
-        return splitRepository.findByUsuarioId(id);
-    }
-
     public void updateSplit(Integer id, String titulo) {
         Split split = splitRepository.findById(id).orElseThrow(() -> new RuntimeException("Split no encontrado"));
 
