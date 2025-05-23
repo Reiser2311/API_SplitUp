@@ -12,11 +12,13 @@ public class UsuarioSplit {
     @ManyToOne
     @MapsId("usuarioId")
     @JoinColumn(name = "usuario_id")
+    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private Usuario usuario;
 
     @ManyToOne
     @MapsId("splitId")
     @JoinColumn(name = "split_id")
+    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private Split split;
 
     public UsuarioSplit() {}
