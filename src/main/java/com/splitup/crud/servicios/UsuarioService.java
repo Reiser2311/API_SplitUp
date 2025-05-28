@@ -23,6 +23,8 @@ public class UsuarioService {
 
     public Optional<Usuario> findById(Integer id) { return usuarioRepository.findById(id); }
 
+    public Optional<Usuario> findByCorreo(String correo) { return usuarioRepository.findByCorreo(correo); }
+
     public Usuario save(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }

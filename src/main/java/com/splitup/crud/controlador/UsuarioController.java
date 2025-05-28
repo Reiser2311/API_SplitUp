@@ -24,6 +24,13 @@ public class UsuarioController {
         return usuarioService.findAll();
     }
 
+    @GetMapping("/{correo}")
+    public ResponseEntity<Usuario> getUsuarioByCorreo(@PathVariable String correo) {
+        Optional<Usuario> usuario = usuarioService.findByCorreo(correo);
+        return usuario.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> getUsuarioById(@PathVariable Integer id) {
         Optional<Usuario> usuario = usuarioService.findById(id);
