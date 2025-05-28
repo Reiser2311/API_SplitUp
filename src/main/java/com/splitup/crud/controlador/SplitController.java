@@ -34,10 +34,6 @@ public class SplitController {
 
     @PostMapping
     public Split createSplit(@RequestBody Split split) {
-        if (split.getUsuario() == null) {
-            throw new RuntimeException("El usuario del Split no puede ser nulo");
-        }
-
         return splitService.save(split);
     }
 

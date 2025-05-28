@@ -30,17 +30,6 @@ public class SplitService {
     }
 
     public Split save(Split split) {
-
-        if (split.getId() == null || split.getUsuario().getCorreo() == null) {
-            throw new RuntimeException("El usuario no puede ser nulo");
-        }
-
-        Usuario usuarioExistente = usuarioRepository.findById(split.getUsuario().getId())
-                .orElseThrow(() -> new RuntimeException("Usuario con correo " + split.getUsuario().getCorreo() + " no encontrado"));
-
-        // Asigna el usuario existente al Split
-        split.setUsuario(usuarioExistente);
-
         return splitRepository.save(split);
     }
 
