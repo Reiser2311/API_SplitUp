@@ -1,9 +1,7 @@
 package com.splitup.crud.servicios;
 
 import com.splitup.crud.entidades.Split;
-import com.splitup.crud.entidades.Usuario;
 import com.splitup.crud.repositorio.SplitRepository;
-import com.splitup.crud.repositorio.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +11,10 @@ import java.util.Optional;
 @Service
 public class SplitService {
     private final SplitRepository splitRepository;
-    private final UsuarioRepository usuarioRepository;
 
     @Autowired
-    public SplitService(SplitRepository splitRepository, UsuarioRepository usuarioRepository) {
+    public SplitService(SplitRepository splitRepository) {
         this.splitRepository = splitRepository;
-        this.usuarioRepository = usuarioRepository;
     }
 
     public List<Split> findAll() {

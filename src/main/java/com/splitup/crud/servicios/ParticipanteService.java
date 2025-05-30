@@ -25,6 +25,10 @@ public class ParticipanteService {
         return participanteRepository.findById(id);
     }
 
+    public List<Participante> findBySplitId (Integer splitId) {
+        return participanteRepository.findBySplitId(splitId);
+    }
+
     public Participante save(Participante participante) {
         return participanteRepository.save(participante);
     }

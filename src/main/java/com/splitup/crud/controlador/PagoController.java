@@ -48,13 +48,13 @@ public class PagoController {
     public ResponseEntity<Pago> createPago(@RequestBody Pago pago) {
         if (pago.getSplit() == null || pago.getSplit().getId() == null) {
             System.out.println("Error: Split es nulo o el id es nulo");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Split no proporcionado o invalido
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); //Split no proporcionado o invalido
         }
 
         Optional<Split> optionalSplit = splitRepository.findById(pago.getSplit().getId());
         if (optionalSplit.isEmpty()) {
             System.out.println("Error: No se encontró Split con id " + pago.getSplit().getId());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // No se encuentra el Split
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); //No se encuentra el Split
         }
 
         pago.setSplit(optionalSplit.get());

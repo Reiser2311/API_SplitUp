@@ -22,6 +22,10 @@ public class Split {
     @JsonIgnore
     private List<Pago> pagos;
 
+    @OneToMany(mappedBy = "split", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Participante> participantes;
+
     public Integer getId() {
         return id;
     }
@@ -52,5 +56,13 @@ public class Split {
 
     public void setPagos(List<Pago> pagos) {
         this.pagos = pagos;
+    }
+
+    public List<Participante> getParticipantes() {
+        return participantes;
+    }
+
+    public void setParticipantes(List<Participante> participantes) {
+        this.participantes = participantes;
     }
 }

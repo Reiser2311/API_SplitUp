@@ -1,7 +1,6 @@
 package com.splitup.crud.servicios;
 
 import com.splitup.crud.entidades.Pago;
-import com.splitup.crud.entidades.Split;
 import com.splitup.crud.repositorio.PagoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
