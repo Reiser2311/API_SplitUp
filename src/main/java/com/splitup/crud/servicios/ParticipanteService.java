@@ -37,11 +37,10 @@ public class ParticipanteService {
         participanteRepository.deleteById(id);
     }
 
-    public void updateParticipante(Integer id, String nombre, String correo) {
+    public void updateParticipante(Integer id, String nombre) {
         Participante participante = participanteRepository.findById(id).orElseThrow(() -> new RuntimeException("Participante no encontrado"));
 
         participante.setNombre(nombre);
-        participante.setCorreo(correo);
 
         participanteRepository.save(participante);
     }

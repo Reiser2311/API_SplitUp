@@ -26,6 +26,7 @@ public class UsuarioService {
     public Optional<Usuario> findByCorreo(String correo) { return usuarioRepository.findByCorreo(correo); }
 
     public Usuario save(Usuario usuario) {
+        System.out.println("Foto de perfil: " + usuario.getFotoPerfil().length());
         return usuarioRepository.save(usuario);
     }
 

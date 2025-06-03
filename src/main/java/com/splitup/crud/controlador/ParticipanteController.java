@@ -55,7 +55,7 @@ public class ParticipanteController {
         Optional<Split> optionalSplit =  splitRepository.findById(participante.getSplit().getId());
         if (optionalSplit.isEmpty()) {
             System.out.println("Error: No se encontró Split con id " + participante.getSplit().getId());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); //No s encuentra el Split
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); //No se encuentra el Split
         }
 
         participante.setSplit(optionalSplit.get());
@@ -64,14 +64,14 @@ public class ParticipanteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateParticipante(@PathVariable Integer id, @RequestParam String nombre, @RequestParam String correo) {
+    public ResponseEntity<Void> updateParticipante(@PathVariable Integer id, @RequestParam String nombre) {
         Optional<Participante> participante = participanteService.findById(id);
 
         if (participante.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        participanteService.updateParticipante(id, nombre, correo);
+        participanteService.updateParticipante(id, nombre);
 
         return ResponseEntity.ok().build();
     }

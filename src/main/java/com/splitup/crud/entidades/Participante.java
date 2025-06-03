@@ -9,7 +9,6 @@ public class Participante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nombre;
-    private String correo;
 
     @ManyToOne
     @JoinColumn(name = "split_id", nullable = false)
@@ -29,14 +28,6 @@ public class Participante {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
     }
 
     public Split getSplit() {

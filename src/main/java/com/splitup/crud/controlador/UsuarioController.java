@@ -24,7 +24,7 @@ public class UsuarioController {
         return usuarioService.findAll();
     }
 
-    @GetMapping("/{correo}")
+    @GetMapping("/correo/{correo}")
     public ResponseEntity<Usuario> getUsuarioByCorreo(@PathVariable String correo) {
         Optional<Usuario> usuario = usuarioService.findByCorreo(correo);
         return usuario.map(ResponseEntity::ok)

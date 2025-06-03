@@ -1,7 +1,6 @@
 package com.splitup.crud.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.splitup.crud.servicios.UsuarioService;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -11,11 +10,12 @@ import java.util.List;
 @Table(name = "Usuario")
 public class Usuario {
     @Id
-    @Column(nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String correo;
     private String nombre;
     private String contrasenya;
+    @Column(name = "foto_perfil", columnDefinition = "text")
     private String fotoPerfil;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
