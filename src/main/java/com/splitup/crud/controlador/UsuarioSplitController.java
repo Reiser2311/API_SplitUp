@@ -3,6 +3,7 @@ package com.splitup.crud.controlador;
 import com.splitup.crud.entidades.Split;
 import com.splitup.crud.entidades.UsuarioSplit;
 import com.splitup.crud.servicios.UsuarioSplitService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,19 +21,28 @@ public class UsuarioSplitController {
     }
 
     @PostMapping
-    public UsuarioSplit asociarUsuarioConSplit(@RequestBody RelacionRequest request) {
-        return usuarioSplitService.asociarUsuarioConSplit(request.getUsuarioId(), request.getSplitId());
+    public ResponseEntity<UsuarioSplit> asociarUsuarioConSplit(@RequestBody RelacionRequest request) {
+//        return usuarioSplitService.asociarUsuarioConSplit(request.getUsuarioId(), request.getSplitId());
+        UsuarioSplit savedUsuarioSplit = usuarioSplitService.asociarUsuarioConSplit(request.getUsuarioId(), request.getSplitId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUsuarioSplit);
     }
+
 
     @GetMapping("/usuario/{usuarioId}")
-    public List<UsuarioSplit> obtenerSplitsDeUsuario(@PathVariable Integer usuarioId) {
-        return usuarioSplitService.obtenerSplitsDeUsuario(usuarioId);
+    public ResponseEntity<List<UsuarioSplit>> obtenerSplitsDeUsuario(@PathVariable Integer usuarioId) {
+//        return usuarioSplitService.obtenerSplitsDeUsuario(usuarioId);
+        List<UsuarioSplit> splits = usuarioSplitService.obtenerSplitsDeUsuario(usuarioId);
+        return ResponseEntity.ok(splits);
     }
 
+
     @GetMapping("/split/{splitId}")
-    public List<UsuarioSplit> obtenerUsuariosDeSplit(@PathVariable Integer splitId) {
-        return usuarioSplitService.obtenerUsuariosDeSplit(splitId);
+    public ResponseEntity<List<UsuarioSplit>> obtenerUsuariosDeSplit(@PathVariable Integer splitId) {
+//        return usuarioSplitService.obtenerUsuariosDeSplit(splitId);
+        List<UsuarioSplit> usuarios = usuarioSplitService.obtenerUsuariosDeSplit(splitId);
+        return ResponseEntity.ok(usuarios);
     }
+
 
     @GetMapping("/splits/{usuarioId}")
     public ResponseEntity<List<Split>> obtenerSplitsPorUsuario(@PathVariable Integer usuarioId) {

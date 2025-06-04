@@ -67,7 +67,7 @@ public class ParticipanteController {
     public ResponseEntity<Void> updateParticipante(@PathVariable Integer id, @RequestParam String nombre) {
         Optional<Participante> participante = participanteService.findById(id);
 
-        if (participante.isPresent()) {
+        if (participante.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 

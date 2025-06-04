@@ -36,7 +36,7 @@ public class PagoService {
         pagoRepository.deleteById(id);
     }
 
-    public void updatePago(Integer id, String titulo, Double importe, String pagadoPor) {
+    public void updatePago(Integer id, String titulo, Double importe, int pagadoPor) {
         Pago pago = pagoRepository.findById(id).orElseThrow(() -> new RuntimeException("Split no encontrado"));
 
         pago.setTitulo(titulo);

@@ -10,7 +10,7 @@ public class Pago {
     private Integer id;
     private String titulo;
     private double importe;
-    private String pagadoPor;
+    private int pagadoPor;
 
     @ManyToOne
     @JoinColumn(name = "split_id", nullable = false)
@@ -40,11 +40,11 @@ public class Pago {
         this.importe = importe;
     }
 
-    public String getPagadoPor() {
+    public int getPagadoPor() {
         return pagadoPor;
     }
 
-    public void setPagadoPor(String pagadoPor) {
+    public void setPagadoPor(int pagadoPor) {
         this.pagadoPor = pagadoPor;
     }
 

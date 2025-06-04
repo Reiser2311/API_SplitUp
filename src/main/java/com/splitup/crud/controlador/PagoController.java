@@ -38,9 +38,6 @@ public class PagoController {
     @GetMapping("/splits/{id}")
     public ResponseEntity<List<Pago>> getPagoBySplitId(@PathVariable Integer id) {
         List<Pago> pagos = pagoService.findBySplitId(id);
-        if (pagos.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
         return ResponseEntity.ok(pagos);
     }
 
@@ -64,7 +61,7 @@ public class PagoController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateSplit(@PathVariable Integer id, @RequestParam String titulo, @RequestParam Double importe, @RequestParam String pagadoPor) {
+    public ResponseEntity<Void> updateSplit(@PathVariable Integer id, @RequestParam String titulo, @RequestParam Double importe, @RequestParam int pagadoPor) {
         Optional<Pago> pagoOpt = pagoService.findById(id);
 
         if (pagoOpt.isEmpty()) {
