@@ -34,12 +34,13 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    public void updateUsuario(Integer id, String correo, String nombre, String contrasenya) {
+    public void updateUsuario(Integer id, String correo, String nombre, String contrasenya, String fotoPerfil) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         usuario.setCorreo(correo);
         usuario.setNombre(nombre);
         usuario.setContrasenya(contrasenya);
+        usuario.setFotoPerfil(fotoPerfil);
 
         usuarioRepository.save(usuario);
     }

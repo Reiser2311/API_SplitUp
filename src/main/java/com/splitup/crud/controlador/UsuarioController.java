@@ -44,14 +44,14 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUsuario(@PathVariable Integer id, @RequestParam String correo, @RequestParam String nombre, @RequestParam String contrasenya) {
+    public ResponseEntity<Void> updateUsuario(@PathVariable Integer id, @RequestBody Usuario usuario) {
         Optional<Usuario> usuarioOpt = usuarioService.findById(id);
 
         if (usuarioOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        usuarioService.updateUsuario(id, correo, nombre, contrasenya);
+        usuarioService.updateUsuario(id, usuario.getCorreo(), usuario.getNombre(), usuario.getContrasenya(), usuario.getFotoPerfil());
 
         return ResponseEntity.ok().build();
     }
