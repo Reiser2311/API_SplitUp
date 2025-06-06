@@ -2,7 +2,6 @@ package com.splitup.crud.servicios;
 
 import com.splitup.crud.entidades.Split;
 import com.splitup.crud.entidades.Usuario;
-import com.splitup.crud.entidades.UsuarioSplit;
 import com.splitup.crud.repositorio.SplitRepository;
 import com.splitup.crud.repositorio.UsuarioRepository;
 import com.splitup.crud.repositorio.UsuarioSplitRepository;
