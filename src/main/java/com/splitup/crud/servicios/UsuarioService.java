@@ -6,6 +6,7 @@ import com.splitup.crud.repositorio.SplitRepository;
 import com.splitup.crud.repositorio.UsuarioRepository;
 import com.splitup.crud.repositorio.UsuarioSplitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final SplitRepository splitRepository;
     private final UsuarioSplitRepository usuarioSplitRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public UsuarioService(UsuarioRepository usuarioRepository, UsuarioSplitRepository usuarioSplitRepository, SplitRepository splitRepository) {
@@ -33,7 +35,9 @@ public class UsuarioService {
     public Optional<Usuario> findByCorreo(String correo) { return usuarioRepository.findByCorreo(correo); }
 
     public Usuario save(Usuario usuario) {
-        System.out.println("Foto de perfil: " + usuario.getFotoPerfil().length());
+        String rawContrasenya = usuario.getContrasenya();
+        String hashedContrasenya = passwordEncoder.encode(rawContrasenya);
+        usuario.setContrasenya(hashedContrasenya);
         return usuarioRepository.save(usuario);
     }
 

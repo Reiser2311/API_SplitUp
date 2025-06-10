@@ -5,6 +5,7 @@ import com.splitup.crud.servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -13,10 +14,12 @@ import java.util.Optional;
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
     private final UsuarioService usuarioService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService,  PasswordEncoder passwordEncoder) {
         this.usuarioService = usuarioService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -60,6 +63,21 @@ public class UsuarioController {
     public ResponseEntity<Void> deleteUsuario(@PathVariable Integer id) {
         usuarioService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Usuario> login(@RequestBody Usuario loginRequest) {
+        Optional<Usuario> optionalUsuario = usuarioService.findByCorreo(loginRequest.getCorreo());
+        if (optionalUsuario.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        Usuario usuario = optionalUsuario.get();
+        if (!passwordEncoder.matches(loginRequest.getContrasenya(), usuario.getContrasenya())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return ResponseEntity.ok(usuario);
     }
 }
 
