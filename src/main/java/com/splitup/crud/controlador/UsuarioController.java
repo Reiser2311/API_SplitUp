@@ -69,7 +69,7 @@ public class UsuarioController {
     public ResponseEntity<Usuario> login(@RequestBody Usuario loginRequest) {
         Optional<Usuario> optionalUsuario = usuarioService.findByCorreo(loginRequest.getCorreo());
         if (optionalUsuario.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         Usuario usuario = optionalUsuario.get();

@@ -64,6 +64,6 @@ public class UsuarioService {
         usuario.setContrasenya(contrasenya);
         usuario.setFotoPerfil(fotoPerfil);
 
-        usuarioRepository.save(usuario);
+        save(usuario);
     }
 }
