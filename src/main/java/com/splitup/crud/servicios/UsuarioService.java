@@ -20,10 +20,12 @@ public class UsuarioService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioSplitRepository usuarioSplitRepository, SplitRepository splitRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioSplitRepository usuarioSplitRepository,
+                          SplitRepository splitRepository,  PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.splitRepository = splitRepository;
         this.usuarioSplitRepository = usuarioSplitRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Usuario> findAll() {
