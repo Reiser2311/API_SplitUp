@@ -22,14 +22,14 @@ public class ParticipantePagoController {
     }
 
     @PostMapping
-    public ResponseEntity<ParticipantePago> asociarParticipanteConSplit(@RequestBody RelacionRequest request){
-        ParticipantePago savedParticipantePago = participantePagoService.asociarParticipanteConSplit(request.participanteId,  request.participanteId);
+    public ResponseEntity<ParticipantePago> asociarParticipanteConPago(@RequestBody RelacionRequest request){
+        ParticipantePago savedParticipantePago = participantePagoService.asociarParticipanteConSplit(request.participanteId, request.pagoId);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedParticipantePago);
     }
 
-    @GetMapping("/participante/{splitId}")
-    public ResponseEntity<List<Participante>> obtenerPaticipantesPorSplit(@PathVariable Integer splitId){
-        List<ParticipantePago> relaciones = participantePagoService.obtenerParticipantesDeSplit(splitId);
+    @GetMapping("/participante/{pagoId}")
+    public ResponseEntity<List<Participante>> obtenerPaticipantesPorPago(@PathVariable Integer splitId){
+        List<ParticipantePago> relaciones = participantePagoService.obtenerParticipantesDePago(splitId);
         List<Participante> participantes = relaciones.stream()
                 .map(ParticipantePago::getParticipante)
                 .collect(Collectors.toList());
@@ -44,9 +44,28 @@ public class ParticipantePagoController {
         return ResponseEntity.ok(pago);
     }
 
+    @GetMapping("/ids_participantes_por_pago/{pagoId}")
+    public ResponseEntity<List<Integer>> obtenerIdsParticipantesPorPago(@PathVariable Integer pagoId) {
+        List<ParticipantePago> relaciones = participantePagoService.obtenerParticipantesDePago(pagoId);
+        List<Integer> ids = relaciones.stream()
+                .map(r -> r.getParticipante().getId())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(ids);
+    }
+
+    @DeleteMapping("/{participanteId}/{pagoId}")
+    public ResponseEntity<Void> eliminarParticipante(@PathVariable Integer participanteId, @PathVariable Integer pagoId){
+        try {
+            participantePagoService.eliminarRelacion(participanteId, pagoId);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     public static class RelacionRequest {
         private Integer participanteId;
-        private Integer splitId;
+        private Integer pagoId;
 
         public Integer getParticipanteId() {
             return participanteId;
@@ -56,12 +75,12 @@ public class ParticipantePagoController {
             this.participanteId = participanteId;
         }
 
-        public Integer getSplitId() {
-            return splitId;
+        public Integer getPagoId() {
+            return pagoId;
         }
 
-        public void setSplitId(Integer splitId) {
-            this.splitId = splitId;
+        public void setPagoId(Integer pagoId) {
+            this.pagoId = pagoId;
         }
     }
 }

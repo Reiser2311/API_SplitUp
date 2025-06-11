@@ -3,6 +3,7 @@ package com.splitup.crud.servicios;
 import com.splitup.crud.entidades.Pago;
 import com.splitup.crud.entidades.Participante;
 import com.splitup.crud.entidades.ParticipantePago;
+import com.splitup.crud.entidades.ParticipantePagoId;
 import com.splitup.crud.repositorio.PagoRepository;
 import com.splitup.crud.repositorio.ParticipanteRepository;
 import com.splitup.crud.repositorio.ParticipantePagoRepository;
@@ -24,15 +25,24 @@ public class ParticipantePagoService {
         this.pagoRepository = pagoRepository;
     }
 
-    public ParticipantePago asociarParticipanteConSplit (Integer participanteId, Integer splitId) {
+    public ParticipantePago asociarParticipanteConSplit (Integer participanteId, Integer pagoId) {
         Participante participante = participanteRepository.findById(participanteId).orElseThrow();
-        Pago pago = pagoRepository.findById(splitId).orElseThrow();
+        Pago pago = pagoRepository.findById(pagoId).orElseThrow();
 
         ParticipantePago relacion = new ParticipantePago(participante, pago);
         return participantePagoRepository.save(relacion);
     }
 
-    public List<ParticipantePago> obtenerParticipantesDeSplit(Integer splitId) {
+    public void eliminarRelacion(Integer participanteId, Integer pagoId) {
+        ParticipantePagoId id = new ParticipantePagoId(participanteId, pagoId);
+        if (participantePagoRepository.existsById(id)) {
+            participantePagoRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Relacion no encontrado");
+        }
+    }
+
+    public List<ParticipantePago> obtenerParticipantesDePago(Integer splitId) {
         return participantePagoRepository.findByIdPagoId(splitId);
     }
 

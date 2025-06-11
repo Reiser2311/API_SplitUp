@@ -28,6 +28,7 @@ public class ParticipantePago {
     public ParticipantePago(Participante participante, Pago pago) {
         this.participante = participante;
         this.pago = pago;
+        this.id = new ParticipantePagoId(participante.getId(), pago.getId());
     }
 
     public ParticipantePagoId getId() {
