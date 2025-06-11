@@ -1,13 +1,15 @@
 package com.splitup.crud.controlador;
 
+import com.splitup.crud.entidades.Participante;
+import com.splitup.crud.entidades.Usuario;
 import com.splitup.crud.entidades.UsuarioParticipante;
-import com.splitup.crud.entidades.UsuarioSplit;
 import com.splitup.crud.servicios.UsuarioParticipanteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/usuario_participante")
@@ -26,17 +28,21 @@ public class UsuarioParticipanteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUsuarioParticipante);
     }
 
-    @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<UsuarioParticipante>> obtenerParticipantesDeUsuario(@PathVariable Integer usuarioId) {
+    @GetMapping("/participante/{usuarioId}")
+    public ResponseEntity<List<Participante>> obtenerParticipantesPorUsuario(@PathVariable Integer usuarioId) {
 //        return usuarioParticipanteService.obtenerParticipantesDeUsuario(usuarioId);
-        List<UsuarioParticipante> participantes = usuarioParticipanteService.obtenerParticipantesDeUsuario(usuarioId);
+        List<UsuarioParticipante> relacion = usuarioParticipanteService.obtenerParticipantesDeUsuario(usuarioId);
+        List<Participante> participantes = relacion.stream()
+                .map(UsuarioParticipante::getParticipante)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(participantes);
     }
 
-    @GetMapping("/participante/{participanteId}")
-    public ResponseEntity<UsuarioParticipante> obtenerUsuarioDeParticipante(@PathVariable Integer participanteId) {
+    @GetMapping("/usuario/{participanteId}")
+    public ResponseEntity<Usuario> obtenerUsuarioPorParticipante(@PathVariable Integer participanteId) {
 //        return usuarioParticipanteService.obtenerUsuarioDeParticipante(participanteId);
-        UsuarioParticipante usuario = usuarioParticipanteService.obtenerUsuarioDeParticipante(participanteId);
+        UsuarioParticipante relacion = usuarioParticipanteService.obtenerUsuarioDeParticipante(participanteId);
+        Usuario usuario = relacion.getUsuario();
         return ResponseEntity.ok(usuario);
     }
 

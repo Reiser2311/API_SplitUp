@@ -1,6 +1,7 @@
 package com.splitup.crud.controlador;
 
 import com.splitup.crud.entidades.Split;
+import com.splitup.crud.entidades.Usuario;
 import com.splitup.crud.entidades.UsuarioSplit;
 import com.splitup.crud.servicios.UsuarioSplitService;
 import org.springframework.http.HttpStatus;
@@ -27,19 +28,13 @@ public class UsuarioSplitController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUsuarioSplit);
     }
 
-
-    @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<UsuarioSplit>> obtenerSplitsDeUsuario(@PathVariable Integer usuarioId) {
-//        return usuarioSplitService.obtenerSplitsDeUsuario(usuarioId);
-        List<UsuarioSplit> splits = usuarioSplitService.obtenerSplitsDeUsuario(usuarioId);
-        return ResponseEntity.ok(splits);
-    }
-
-
-    @GetMapping("/split/{splitId}")
-    public ResponseEntity<List<UsuarioSplit>> obtenerUsuariosDeSplit(@PathVariable Integer splitId) {
+    @GetMapping("/usuario/{splitId}")
+    public ResponseEntity<List<Usuario>> obtenerUsuariosPorSplit(@PathVariable Integer splitId) {
 //        return usuarioSplitService.obtenerUsuariosDeSplit(splitId);
-        List<UsuarioSplit> usuarios = usuarioSplitService.obtenerUsuariosDeSplit(splitId);
+        List<UsuarioSplit> relacion = usuarioSplitService.obtenerUsuariosDeSplit(splitId);
+        List<Usuario> usuarios = relacion.stream()
+                .map(UsuarioSplit::getUsuario)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(usuarios);
     }
 
