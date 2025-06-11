@@ -1,6 +1,9 @@
 package com.splitup.crud.entidades;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Pago")
@@ -11,6 +14,8 @@ public class Pago {
     private String titulo;
     private double importe;
     private int pagadoPor;
+    @Column(name = "fecha_creacion")
+    private LocalDate fechaCreacion;
 
     @ManyToOne
     @JoinColumn(name = "split_id", nullable = false)
@@ -56,4 +61,11 @@ public class Pago {
         this.split = split;
     }
 
+    public LocalDate getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDate fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
 }
