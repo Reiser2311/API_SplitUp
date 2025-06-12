@@ -23,14 +23,12 @@ public class UsuarioParticipanteController {
 
     @PostMapping
     public ResponseEntity<UsuarioParticipante> asociarUsuarioConParticipante(@RequestBody RelacionRequest request) {
-//        return usuarioParticipanteService.asociarUsuarioConParticipante(request.getUsuarioId(), request.getParticipanteId());
         UsuarioParticipante savedUsuarioParticipante = usuarioParticipanteService.asociarUsuarioConParticipante(request.usuarioId, request.participanteId);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUsuarioParticipante);
     }
 
     @GetMapping("/participante/{usuarioId}")
     public ResponseEntity<List<Participante>> obtenerParticipantesPorUsuario(@PathVariable Integer usuarioId) {
-//        return usuarioParticipanteService.obtenerParticipantesDeUsuario(usuarioId);
         List<UsuarioParticipante> relacion = usuarioParticipanteService.obtenerParticipantesDeUsuario(usuarioId);
         List<Participante> participantes = relacion.stream()
                 .map(UsuarioParticipante::getParticipante)
@@ -40,11 +38,27 @@ public class UsuarioParticipanteController {
 
     @GetMapping("/usuario/{participanteId}")
     public ResponseEntity<Usuario> obtenerUsuarioPorParticipante(@PathVariable Integer participanteId) {
-//        return usuarioParticipanteService.obtenerUsuarioDeParticipante(participanteId);
         UsuarioParticipante relacion = usuarioParticipanteService.obtenerUsuarioDeParticipante(participanteId);
         Usuario usuario = relacion.getUsuario();
         return ResponseEntity.ok(usuario);
     }
+
+    @GetMapping("/existe/{participanteId}/{usuarioId}")
+    public ResponseEntity<Boolean> existeUsuarioPorParticipante(@PathVariable Integer participanteId, @PathVariable Integer usuarioId) {
+        boolean existe = usuarioParticipanteService.comprobarRelacion(usuarioId, participanteId);
+        return ResponseEntity.status(HttpStatus.OK).body(existe);
+    }
+
+    @DeleteMapping("/{participanteId}/{usuarioId}")
+    public ResponseEntity<Void> eliminarRelacion(@PathVariable Integer participanteId, @PathVariable Integer usuarioId){
+        try {
+            usuarioParticipanteService.eliminarRelacion(participanteId, usuarioId);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 
     public static class RelacionRequest {
         private Integer usuarioId;

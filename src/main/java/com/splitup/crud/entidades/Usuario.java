@@ -18,9 +18,13 @@ public class Usuario {
     @Column(name = "foto_perfil", columnDefinition = "text")
     private String fotoPerfil;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<UsuarioSplit> usuarioSplits = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<UsuarioParticipante> participantes;
 
     public String getNombre() {
         return nombre;
@@ -68,5 +72,13 @@ public class Usuario {
 
     public void setFotoPerfil(String fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
+    }
+
+    public List<UsuarioParticipante> getParticipantes() {
+        return participantes;
+    }
+
+    public void setParticipantes(List<UsuarioParticipante> participantes) {
+        this.participantes = participantes;
     }
 }

@@ -1,6 +1,7 @@
 package com.splitup.crud.controlador;
 
 import com.splitup.crud.entidades.Usuario;
+import com.splitup.crud.entidades.UsuarioDTO;
 import com.splitup.crud.servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,22 +29,35 @@ public class UsuarioController {
     }
 
     @GetMapping("/correo/{correo}")
-    public ResponseEntity<Usuario> getUsuarioByCorreo(@PathVariable String correo) {
+    public ResponseEntity<UsuarioDTO> getUsuarioByCorreo(@PathVariable String correo) {
         Optional<Usuario> usuario = usuarioService.findByCorreo(correo);
-        return usuario.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        if (usuario.isPresent()) {
+            Usuario u  = usuario.get();
+            UsuarioDTO dto = new UsuarioDTO(u.getId(), u.getCorreo(), u.getNombre(), null);
+            return ResponseEntity.ok(dto);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Integer id) {
+    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Integer id) {
         Optional<Usuario> usuario = usuarioService.findById(id);
-        return usuario.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        if (usuario.isPresent()) {
+            Usuario u  = usuario.get();
+            UsuarioDTO dto = new UsuarioDTO(u.getId(), u.getCorreo(), u.getNombre(), u.getFotoPerfil());
+            return ResponseEntity.ok(dto);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @PostMapping
-    public Usuario createUsuario(@RequestBody Usuario usuario) {
-        return usuarioService.save(usuario);
+    public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody Usuario usuario) {
+        Usuario creado = usuarioService.save(usuario);
+        UsuarioDTO dto = new UsuarioDTO(creado.getId(), creado.getCorreo(), creado.getNombre(), null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @PutMapping("/{id}")
@@ -66,7 +80,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Usuario> login(@RequestBody Usuario loginRequest) {
+    public ResponseEntity<UsuarioDTO> login(@RequestBody Usuario loginRequest) {
         Optional<Usuario> optionalUsuario = usuarioService.findByCorreo(loginRequest.getCorreo());
         if (optionalUsuario.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -77,7 +91,9 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        return ResponseEntity.ok(usuario);
+        UsuarioDTO dto = new UsuarioDTO(usuario.getId(), usuario.getCorreo(), usuario.getNombre(), null);
+
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 }
 

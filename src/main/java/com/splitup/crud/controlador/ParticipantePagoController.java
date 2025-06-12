@@ -28,8 +28,8 @@ public class ParticipantePagoController {
     }
 
     @GetMapping("/participante/{pagoId}")
-    public ResponseEntity<List<Participante>> obtenerPaticipantesPorPago(@PathVariable Integer splitId){
-        List<ParticipantePago> relaciones = participantePagoService.obtenerParticipantesDePago(splitId);
+    public ResponseEntity<List<Participante>> obtenerPaticipantesPorPago(@PathVariable Integer pagoId){
+        List<ParticipantePago> relaciones = participantePagoService.obtenerParticipantesDePago(pagoId);
         List<Participante> participantes = relaciones.stream()
                 .map(ParticipantePago::getParticipante)
                 .collect(Collectors.toList());
