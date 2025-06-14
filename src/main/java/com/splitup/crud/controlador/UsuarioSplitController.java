@@ -49,6 +49,17 @@ public class UsuarioSplitController {
         return ResponseEntity.ok(splits);
     }
 
+    @DeleteMapping("/{splitId}/{usuarioId}")
+    public ResponseEntity<Void> eliminarRelacion(@PathVariable Integer splitId, @PathVariable Integer usuarioId){
+        try {
+            usuarioSplitService.eliminarRelacion(splitId, usuarioId);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
     public static class RelacionRequest {
         private Integer usuarioId;
         private Integer splitId;

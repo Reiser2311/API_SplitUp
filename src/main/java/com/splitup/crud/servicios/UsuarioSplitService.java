@@ -1,8 +1,6 @@
 package com.splitup.crud.servicios;
 
-import com.splitup.crud.entidades.Split;
-import com.splitup.crud.entidades.Usuario;
-import com.splitup.crud.entidades.UsuarioSplit;
+import com.splitup.crud.entidades.*;
 import com.splitup.crud.repositorio.SplitRepository;
 import com.splitup.crud.repositorio.UsuarioRepository;
 import com.splitup.crud.repositorio.UsuarioSplitRepository;
@@ -39,4 +37,21 @@ public class UsuarioSplitService {
     public List<UsuarioSplit> obtenerUsuariosDeSplit(Integer splitId) {
         return usuarioSplitRepository.findBySplitId(splitId);
     }
+
+    public void eliminarRelacion(Integer splitId, Integer usuarioId) {
+        UsuarioSplitId id = new UsuarioSplitId(usuarioId, splitId);
+
+        if (usuarioSplitRepository.existsById(id)) {
+            usuarioSplitRepository.deleteById(id);
+
+            // Comprobar si quedan más relaciones con ese split
+            long count = usuarioSplitRepository.countByIdSplitId(splitId);
+            if (count == 0) {
+                splitRepositorio.deleteById(splitId);
+            }
+        } else {
+            throw new RuntimeException("Relación no encontrada");
+        }
+    }
+
 }

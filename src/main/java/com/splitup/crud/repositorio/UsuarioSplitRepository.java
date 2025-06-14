@@ -10,4 +10,5 @@ public interface UsuarioSplitRepository extends JpaRepository<UsuarioSplit, Usua
     List<UsuarioSplit> findByUsuarioId (Integer idUsuario);
     List<UsuarioSplit> findBySplitId (Integer idSplit);
     boolean existsBySplitId (Integer idSplit);
+    long countByIdSplitId(Integer idSplit);
 }
